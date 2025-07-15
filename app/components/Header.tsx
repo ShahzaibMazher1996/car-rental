@@ -1,57 +1,114 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { Bars3Icon, XMarkIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+
+const navLinks = [
+  { name: 'Current Rates', href: '#' },
+  { name: 'Used Car Guide', href: '#' },
+  { name: 'Car Loan Calculator', href: '#' },
+];
+
+const resourceLinks = [
+  { name: 'Blog', href: '#' },
+  { name: 'FAQ', href: '#' },
+];
 
 export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !(dropdownRef.current as HTMLElement).contains(e.target as Node)) {
+        setDropdownOpen(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-gray-100 shadow-sm transition-all duration-300">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
 
-          {/* LEFT SIDE: Logo + Nav */}
+          {/* Logo + Nav */}
           <div className="flex items-center space-x-6">
             <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.svg" alt="CarLoans Canada" className="h-8 w-auto" />
+              <Image
+                src="/logo.svg"
+                alt="CarLoans Canada"
+                width={100}
+                height={32}
+                className="h-8 w-auto"
+              />
               <span className="text-xs text-gray-400">
-                Powered by <span className="font-bold text-red-600">Equifax</span>
+                Powered by <span className="font-semibold text-[#f3443e]">XYZ</span>
               </span>
             </Link>
 
-            {/* Desktop Menu */}
-            <nav className="hidden md:flex space-x-6 items-center">
-              <Link href="#" className="text-sm text-gray-700 hover:text-green-600">Current Rates</Link>
-              <Link href="#" className="text-sm text-gray-700 hover:text-green-600">Used Car Guide</Link>
-              <Link href="#" className="text-sm text-gray-700 hover:text-green-600">Car Loan Calculator</Link>
-              <div className="relative group">
-                <button className="flex items-center text-sm text-gray-700 hover:text-green-600">
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center space-x-6 text-sm font-medium" aria-label="Main navigation">
+              {navLinks.map(link => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="text-gray-700 hover:text-[#f3443e] focus:outline-none focus:ring-2 focus:ring-[#f3443e] transition"
+                >
+                  {link.name}
+                </Link>
+              ))}
+
+              {/* Dropdown */}
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  className="flex items-center text-gray-700 hover:text-[#f3443e] focus:outline-none focus:ring-2 focus:ring-[#f3443e] transition"
+                  aria-haspopup="true"
+                  aria-expanded={dropdownOpen}
+                >
                   Resources
                   <ChevronDownIcon className="h-4 w-4 ml-1" />
                 </button>
-                <div className="absolute hidden group-hover:block bg-white shadow-lg mt-2 rounded p-2">
-                  <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Blog</Link>
-                  <Link href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">FAQ</Link>
-                </div>
+                {dropdownOpen && (
+                  <div className="absolute z-20 mt-2 w-40 bg-white rounded shadow-lg p-2">
+                    {resourceLinks.map(link => (
+                      <Link
+                        key={link.name}
+                        href={link.href}
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-[#f3443e]/10 rounded transition"
+                      >
+                        {link.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
               </div>
             </nav>
           </div>
 
-          {/* CTA Button (Desktop) */}
+          {/* Desktop CTA */}
           <div className="hidden md:block">
             <Link
               href="#"
-              className="inline-block rounded-full bg-[#003333] px-8 py-2 text-sm font-semibold text-white hover:bg-green-800 transition"
+              className="inline-block rounded-full bg-[#f3443e] px-6 py-2 text-sm font-semibold text-white hover:bg-[#d93933] focus:outline-none focus:ring-2 focus:ring-[#f3443e] transition"
             >
-              GET STARTED
+              Get Started
             </Link>
           </div>
 
-          {/* Mobile Hamburger */}
+          {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button onClick={() => setMobileOpen(!mobileOpen)}>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="Toggle mobile menu"
+              aria-expanded={mobileOpen}
+              aria-controls="mobile-menu"
+            >
               {mobileOpen ? (
                 <XMarkIcon className="h-6 w-6 text-gray-700" />
               ) : (
@@ -63,28 +120,48 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="md:hidden bg-white shadow-md">
-          <div className="space-y-1 px-4 py-3">
-            <Link href="#" className="block text-gray-700 py-2">Current Rates</Link>
-            <Link href="#" className="block text-gray-700 py-2">Used Car Guide</Link>
-            <Link href="#" className="block text-gray-700 py-2">Car Loan Calculator</Link>
-            <details className="py-2">
-              <summary className="cursor-pointer text-gray-700">Resources</summary>
-              <div className="pl-4 mt-1 space-y-1">
-                <Link href="#" className="block text-gray-700">Blog</Link>
-                <Link href="#" className="block text-gray-700">FAQ</Link>
-              </div>
-            </details>
+      <div
+        id="mobile-menu"
+        className={`md:hidden bg-white border-t border-gray-100 transition-all duration-300 ${
+          mobileOpen ? 'max-h-screen py-4 px-4' : 'max-h-0 overflow-hidden'
+        }`}
+      >
+        <div className="space-y-3 text-sm font-medium">
+          {navLinks.map(link => (
             <Link
-              href="#"
-              className="inline-block w-full text-center rounded-full bg-green-900 px-4 py-2 text-white font-semibold hover:bg-green-800 transition"
+              key={link.name}
+              href={link.href}
+              className="block text-gray-700 hover:text-[#f3443e] transition"
             >
-              GET STARTED
+              {link.name}
             </Link>
-          </div>
+          ))}
+
+          <details className="group">
+            <summary className="cursor-pointer text-gray-700 hover:text-[#f3443e] transition">
+              Resources
+            </summary>
+            <div className="ml-4 mt-2 space-y-2">
+              {resourceLinks.map(link => (
+                <Link
+                  key={link.name}
+                  href={link.href}
+                  className="block text-gray-700 hover:text-[#f3443e] transition"
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
+          </details>
+
+          <Link
+            href="#"
+            className="block text-center mt-3 rounded-full bg-[#f3443e] px-6 py-2 text-white font-semibold hover:bg-[#d93933] transition"
+          >
+            Get Started
+          </Link>
         </div>
-      )}
+      </div>
     </header>
   );
 }
