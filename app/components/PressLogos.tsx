@@ -50,7 +50,7 @@ export default function PressLogos() {
         </div>
 
         <button className="bg-[#f3443e] hover:bg-green-800 transition duration-300 text-white font-semibold px-14 py-3 rounded-full shadow-md hover:shadow-lg mx-auto block">
-          START NOW
+          Start Your Application
         </button>
       </div>
     </section>

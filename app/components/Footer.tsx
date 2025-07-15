@@ -90,7 +90,7 @@ export default function Footer() {
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Newsletter</h3>
           <p className="text-gray-600 mb-4">Subscribe for updates</p>
           <button className="bg-[#f3443e] text-white px-6 py-2 rounded-full hover:bg-[#c5302b] transition duration-300 w-full max-w-xs">
-            SUBSCRIBE
+            Subscribe Now
           </button>
         </div>
       </div>

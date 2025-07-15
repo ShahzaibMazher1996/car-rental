@@ -25,7 +25,7 @@ export default function PreApproval() {
           className="bg-[#f3443e] hover:bg-green-800 transition duration-300 text-white font-semibold px-16 py-4 rounded-full shadow-md hover:shadow-lg max-w-xs mx-auto md:mx-0"
           aria-label="Get pre-approved"
         >
-          GET PRE-APPROVED
+          Get Pre-Approved
         </button>
       </div>
 

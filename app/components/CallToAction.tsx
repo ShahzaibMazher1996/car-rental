@@ -20,7 +20,7 @@ export default function CallToAction() {
               className="bg-[#f3443e] text-white px-6 py-3 rounded-full
               hover:bg-[#f3443e] hover:text-white hover:shadow-lg transition duration-300 w-full max-w-xs"
             >
-              CALCULATE
+              Calculate
             </button>
           </div>
 
@@ -40,7 +40,7 @@ export default function CallToAction() {
               className="bg-[#f3443e] text-white px-6 py-3 rounded-full
               hover:bg-[#f3443e] hover:text-white hover:shadow-lg transition duration-300 w-full max-w-xs"
             >
-              GET SCORE
+              Get Score
             </button>
           </div>
 
@@ -60,7 +60,7 @@ export default function CallToAction() {
               className="bg-[#f3443e] text-white px-6 py-3 rounded-full
               hover:bg-[#f3443e] hover:text-white hover:shadow-lg transition duration-300 w-full max-w-xs"
             >
-              GET ESTIMATE
+              Get Estimate
             </button>
           </div>
 
@@ -80,7 +80,7 @@ export default function CallToAction() {
               className="bg-[#f3443e] text-white px-6 py-3 rounded-full
               hover:bg-[#f3443e] hover:text-white hover:shadow-lg transition duration-300 w-full max-w-xs"
             >
-              GET QUOTE
+              Get Quote
             </button>
           </div>
         </div>

@@ -1,8 +1,14 @@
 'use client';
 
-import Image from 'next/image';
+import { useState } from 'react';
 
 export default function VideoSection() {
+  const [isOpen, setIsOpen] = useState(false);
+  const videoId = 'Joa71AjfJqw?si=PWEzuy1Vyh9JzYSX'; // 👉 replace with your actual YouTube ID
+
+  // YouTube thumbnail URL
+  const thumbnailUrl = `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+
   return (
     <section className="bg-white py-16 px-4 flex flex-col items-center max-w-7xl mx-auto">
       <div className="text-center relative z-10 max-w-4xl">
@@ -13,21 +19,18 @@ export default function VideoSection() {
           ONLINE
         </h1>
 
-        <div className="relative w-full" style={{ paddingBottom: '56.25%' }}>
-          <Image
-            src="https://cdn.prod.website-files.com/5ebd4ee4fb92c0dfe132262b/60a515ef634e1ba88865251f_video_stillimage%20copy-p-800.png"
+        {/* Thumbnail with play overlay */}
+        <div
+          className="relative w-full rounded-lg overflow-hidden shadow-lg cursor-pointer"
+          style={{ paddingBottom: '56.25%' }} // 16:9 aspect ratio
+          onClick={() => setIsOpen(true)}
+        >
+          <img
+            src="https://i.pinimg.com/736x/71/e7/33/71e73337e58f9f2650336aee1071143e.jpg"
             alt="Video thumbnail"
-            fill
-            className="object-cover rounded-lg shadow-lg"
-            priority
+            className="absolute inset-0 w-full h-full object-cover"
           />
-
-          <button
-            aria-label="Play video"
-            className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-40 rounded-lg
-              hover:bg-opacity-60 focus:outline-none focus:ring-4 focus:ring-red-600"
-            onClick={() => alert('Play video clicked!')}
-          >
+          <div className="absolute inset-0 bg-opacity-30 flex items-center justify-center">
             <div className="bg-[#f3443e] rounded-full w-16 h-16 flex items-center justify-center shadow-lg">
               <svg
                 className="w-8 h-8 text-white"
@@ -38,9 +41,31 @@ export default function VideoSection() {
                 <path d="M8 5v14l11-7z" />
               </svg>
             </div>
-          </button>
+          </div>
         </div>
       </div>
+
+      {/* Modal with video iframe */}
+      {isOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center px-4">
+          <div className="relative w-full max-w-3xl aspect-video">
+            <iframe
+              className="w-full h-full rounded-lg"
+              src={`https://www.youtube.com/embed/${videoId}?autoplay=1`}
+              title="YouTube video player"
+              allow="autoplay; encrypted-media"
+              allowFullScreen
+            ></iframe>
+            <button
+              className="absolute top-2 right-2 text-white text-3xl font-bold hover:text-red-500"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close video"
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
